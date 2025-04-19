@@ -30,6 +30,7 @@ jobs:
           docker push $IMAGE_NAME
 
   test:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -46,6 +47,7 @@ jobs:
           docker pull $IMAGE_NAME
 
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
