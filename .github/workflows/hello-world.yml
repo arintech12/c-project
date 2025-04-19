@@ -37,7 +37,6 @@ jobs:
 
       - name: Push Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/hello-c-app:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/hello-c-app:latest
 
   deploy:
