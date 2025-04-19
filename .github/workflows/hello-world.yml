@@ -1,0 +1,50 @@
+name: Docker CI/CD Pipeline for C App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/hello-c-app:latest .
+
+  push:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push Docker Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/hello-c-app:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/hello-c-app:latest
+
+  deploy:
+    needs: push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simulate Deployment
+        run: |
+          echo "Running hello-c-app Docker container..."
+          docker run --rm ${{ secrets.DOCKER_USERNAME }}/hello-c-app:latest
