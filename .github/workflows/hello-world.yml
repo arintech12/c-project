@@ -46,13 +46,13 @@ jobs:
         run: |
           docker pull $IMAGE_NAME
           
-      # - name: Scan Docker Image for Vulnerabilities
-      #   uses: aquasecurity/trivy-action@v0.14.0
-      #   with:
-      #     image-ref: ${{ env.IMAGE_NAME }}
-      #     format: 'table'
-      #     exit-code: '0'  # Change to '1' if you want the pipeline to fail on vulnerabilities
-      #     severity: 'CRITICAL,HIGH'    
+      - name: Scan Docker Image for Vulnerabilities
+        uses: aquasecurity/trivy-action@v0.14.0
+        with:
+          image-ref: $IMAGE_NAME
+          format: 'table'
+          exit-code: '0'  # Change to '1' if you want the pipeline to fail on vulnerabilities
+          severity: 'CRITICAL,HIGH'    
 
   deploy:
     needs: test
