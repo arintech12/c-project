@@ -1,4 +1,4 @@
-name: Docker CI/CD Pipeline for C App
+dname: Docker CI/CD Pipeline for C App
 
 on:
   push:
